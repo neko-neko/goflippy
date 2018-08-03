@@ -1,0 +1,17 @@
+# git
+.gitignore
+
+# docker
+docker-compose.yml
+.env
+cmd/goflippy-api/Dockerfile
+cmd/goflippy-admin/Dockerfile
+
+# editorconfig
+.editorconfig
+
+# CI
+.circleci
+
+# golang
+Gopkg.*

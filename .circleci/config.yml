@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: golang:1.10
+      - image: mongo:3.6
+    working_directory: /go/src/github.com/neko-neko/goflippy
+    steps:
+      - checkout
+      - run:
+          name: Build API server
+          command: make setup && make build
+      - run:
+          name: Run API server
+          command: release/linux/amd64/goflippy-api
+          background: true
+          environment:
+            DEBUG: "true"
+            PORT: 8080
+            STOREURL: mongodb://localhost:27017
+            DB: goflippy
+      - run:
+          name: Install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+      - run:
+          name: Wait for API server
+          command: dockerize -wait tcp://localhost:8080 -timeout 1m
+      - run:
+          name: Verify api server is working
+          command: curl --retry 10 --retry-delay 1 http://localhost:8080

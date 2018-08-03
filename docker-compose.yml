@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: cmd/goflippy-api/Dockerfile
+    volumes:
+      - .:/go/src/app
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+    environment:
+      DEBUG: "true"
+      PORT: "8080"
+      STOREURL: "mongodb://mongo"
+      DB: "goflippy"
+    env_file: .env
+  mongo:
+    image: mongo:3.6
+    volumes:
+      - store-data:/data/db
+    ports:
+      - 27017:27017
+  mongo-admin:
+    image: mongo-express:0.45
+    ports:
+      - 18081:8081
+    links:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+volumes:
+  store-data:
+    driver: local

@@ -1,0 +1,90 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "classification goflippy API."
+  },
+  "basePath": "/v1",
+  "paths": {
+    "/features": {
+      "get": {
+        "description": "Lists features filtered by some parameters",
+        "tags": [
+          "features"
+        ],
+        "operationId": "listFeatures",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "description": "search query",
+            "name": "ProjectID",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/features"
+          },
+          "400": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errorStruct": {
+      "description": "errorStruct has description error",
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "x-go-name": "Field"
+        },
+        "value": {
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "github.com/neko-neko/goflippy/cmd/goflippy-api/handler/v1"
+    }
+  },
+  "responses": {
+    "errorResponse": {
+      "description": "errorResponse is a error response structure",
+      "headers": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/errorStruct"
+          }
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "x_api_key": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "x_api_key": []
+    }
+  ]
+}
