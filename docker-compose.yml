@@ -2,8 +2,7 @@ version: "3.3"
 services:
   api:
     build:
-      context: .
-      dockerfile: cmd/goflippy-api/Dockerfile
+      context: api/
     volumes:
       - .:/go/src/app
     ports:
@@ -15,7 +14,7 @@ services:
       PORT: "8080"
       STOREURL: "mongodb://mongo"
       DB: "goflippy"
-    env_file: cmd/goflippy-api/.env
+    env_file: api/.env
   mongo:
     image: mongo:3.6
     volumes:
