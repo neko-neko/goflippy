@@ -22,14 +22,6 @@ import (
 	"github.com/neko-neko/goflippy/pkg/util"
 )
 
-var (
-	// Version of goflippy
-	Version string
-
-	// Hash of goflippy commit hash
-	Hash string
-)
-
 // run application
 func run() int {
 	// load env
