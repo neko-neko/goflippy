@@ -60,7 +60,7 @@ type getFeatureResponse struct {
 	Feature collection.Feature `json:"feature"`
 }
 
-// GetFeature returns all features
+// GetFeature returns the feature
 //
 // swagger:route GET /features/{key} feature featurer resource
 //
