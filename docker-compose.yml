@@ -15,7 +15,7 @@ services:
       PORT: "8080"
       STOREURL: "mongodb://mongo"
       DB: "goflippy"
-    env_file: .env
+    env_file: cmd/goflippy-api/.env
   mongo:
     image: mongo:3.6
     volumes:
