@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"fmt"
 	"github.com/go-kit/kit/log/level"
 	"github.com/neko-neko/goflippy/log"
 )
@@ -56,21 +55,17 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	code, res, err := h.handler(w, r)
 	end := time.Now()
 
-	level.Info(log.Logger).Log("message", fmt.Sprintf(
-		"[%s] %s %s %s %-7s %s %d %d %s %s %s %s",
-		end.Format(time.RFC3339),
-		r.RemoteAddr,
-		r.Header.Get("X-Forwarded-For"),
-		r.Host,
-		r.Method,
-		r.RequestURI,
-		r.ContentLength,
-		code,
-		strconv.FormatInt(r.ContentLength, 10),
-		r.Referer(),
-		r.UserAgent(),
-		end.Sub(start).String(),
-	))
+	level.Info(log.Logger).Log(
+		"remote-addr", r.RemoteAddr,
+		"host", r.Host,
+		"method", r.Method,
+		"uri", r.RequestURI,
+		"content-length", strconv.FormatInt(r.ContentLength, 10),
+		"status-code", code,
+		"referer", r.Referer(),
+		"user-agent", r.UserAgent(),
+		"elapsed-time", end.Sub(start).String(),
+	)
 	if err != nil {
 		h.errorHandler(code, err, w)
 		return
