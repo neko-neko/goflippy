@@ -9,10 +9,10 @@ jobs:
       - checkout
       - run:
           name: Build API server
-          command: make setup && make build
+          command: cd api && make setup && make build
       - run:
           name: Run API server
-          command: release/linux/amd64/goflippy-api
+          command: api/release/linux/amd64/goflippy-api
           background: true
           environment:
             DEBUG: "true"
