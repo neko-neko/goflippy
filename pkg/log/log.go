@@ -7,7 +7,7 @@ import (
 	"github.com/go-kit/kit/log/level"
 )
 
-// Loggeer instance
+// Logger instance
 var Logger log.Logger
 
 func init() {
