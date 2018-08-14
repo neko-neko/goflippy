@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/neko-neko/goflippy/tree/master.svg?style=shield&circle-token=b4e94e627c67fd9ab598b4b5124e98a65fb816ea)](https://circleci.com/gh/neko-neko/goflippy/tree/master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/neko-neko/goflippy)](https://goreportcard.com/report/github.com/neko-neko/goflippy)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 # TODO
