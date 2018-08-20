@@ -11,12 +11,12 @@
   version = "1.3.0"
 
 [[constraint]]
-  branch = "v0.0.1-rc"
   name = "github.com/neko-neko/goflippy"
+  version = "0.0.2"
 
 [[constraint]]
   name = "gopkg.in/go-playground/validator.v9"
-  version = "9.20.2"
+  version = "9.21.0"
 
 [prune]
   go-tests = true
