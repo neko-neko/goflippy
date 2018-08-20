@@ -20,26 +20,6 @@ func NewUserService(userRepo repository.UserRepository) *UserService {
 	}
 }
 
-// FetchUsers fetch users
-func (u *UserService) FetchUsers(projectID string) ([]collection.User, error) {
-	users, err := u.userRepo.Find(projectID)
-	if err != nil {
-		err = NewStoreSystemError(err.Error())
-	}
-
-	return users, err
-}
-
-// FetchUser fetch a user
-func (u *UserService) FetchUser(uuid string, projectID string) (collection.User, error) {
-	user, err := u.userRepo.FindByUUID(uuid, projectID)
-	if err != nil {
-		err = NewResourceNotFoundError(err.Error())
-	}
-
-	return user, err
-}
-
 // RegisterUser register a user
 func (u *UserService) RegisterUser(user *collection.User) error {
 	_, err := u.userRepo.FindByUUID(user.UUID, user.ProjectID.Hex())

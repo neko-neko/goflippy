@@ -36,7 +36,7 @@ type getUsersFeaturesResponse struct {
 	Feature collection.Feature `json:"feature"`
 }
 
-// GetFeatures get features associated the user
+// GetFeature get features associated the user
 //
 // swagger:route GET /users/{uuid}/features/{key} get features
 //
@@ -45,7 +45,7 @@ type getUsersFeaturesResponse struct {
 // Responses:
 //  200: userResponse
 //  400: errorResponse
-func (u *UserFeatureHandler) GetFeatures(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+func (u *UserFeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
 	vars := mux.Vars(r)
 	param := getUsersFeaturesRequest{
 		UUID: vars["uuid"],
@@ -55,7 +55,7 @@ func (u *UserFeatureHandler) GetFeatures(w http.ResponseWriter, r *http.Request)
 		return http.StatusBadRequest, nil, err
 	}
 
-	feature, enabled, err := u.service.FeatureEnabled(param.UUID, param.Key, ctx.GetProjectID(r.Context()))
+	feature, enabled, err := u.service.FeatureEnabledByUser(param.Key, ctx.GetProjectID(r.Context()), param.UUID)
 	if nerr, ok := err.(*service.ResourceNotFoundError); ok {
 		return http.StatusNotFound, nil, nerr
 	} else if err != nil {

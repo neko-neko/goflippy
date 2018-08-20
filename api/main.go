@@ -63,12 +63,11 @@ func run() int {
 
 	// initialize router
 	r := mux.NewRouter()
-	r.Handle("/v1/features", baseHandler.Handler(featureHandler.GetFeatures, v1.ErrorHandler)).Methods("GET")
 	r.Handle("/v1/features/{key}", baseHandler.Handler(featureHandler.GetFeature, v1.ErrorHandler)).Methods("GET")
 	r.Handle("/v1/users", baseHandler.Handler(userHandler.PostUsers, v1.ErrorHandler)).Methods("POST")
 	r.Handle("/v1/users/{uuid}", baseHandler.Handler(userHandler.PatchUsers, v1.ErrorHandler)).Methods("PATCH")
 	r.Handle("/v1/users/{uuid}", baseHandler.Handler(userHandler.DeleteUsers, v1.ErrorHandler)).Methods("DELETE")
-	r.Handle("/v1/users/{uuid}/features/{key}", baseHandler.Handler(userFeatureHandler.GetFeatures, v1.ErrorHandler)).Methods("GET")
+	r.Handle("/v1/users/{uuid}/features/{key}", baseHandler.Handler(userFeatureHandler.GetFeature, v1.ErrorHandler)).Methods("GET")
 
 	// register middlewares
 	r.Use(middleware.NewRecoverMiddleware(handler.RecoverErrorHandler).Middleware)

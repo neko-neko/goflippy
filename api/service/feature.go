@@ -23,28 +23,22 @@ func NewFeature(userRepo repository.UserRepository, featureRepo repository.Featu
 	}
 }
 
-// FetchFeatures returns a few FeatureService resources
-func (f *FeatureService) FetchFeatures(projectID string) ([]collection.Feature, error) {
-	features, err := f.featureRepo.Find(projectID)
-	if err != nil {
-		err = NewStoreSystemError(err.Error())
-	}
-
-	return features, err
-}
-
-// FetchFeature returns a few FeatureService resources
-func (f *FeatureService) FetchFeature(key string, projectID string) (collection.Feature, error) {
+// FeatureEnabledByParams verify enabled feature
+func (f *FeatureService) FeatureEnabled(key string, projectID string) (collection.Feature, bool, error) {
 	feature, err := f.featureRepo.FindByKey(key, projectID)
 	if err != nil {
 		err = NewResourceNotFoundError(err.Error())
 	}
 
-	return feature, err
+	now := time.Now()
+	feature.LastActivatedAt = now
+	f.featureRepo.Update(&feature)
+
+	return feature, false, nil
 }
 
-// FeatureEnabled returns a feature and verify enabled for uuid of user
-func (f *FeatureService) FeatureEnabled(uuid string, key string, projectID string) (collection.Feature, bool, error) {
+// FeatureEnabledByUser verify enabled feature from a user
+func (f *FeatureService) FeatureEnabledByUser(key string, projectID string, uuid string) (collection.Feature, bool, error) {
 	var feature collection.Feature
 
 	now := time.Now()
@@ -65,41 +59,7 @@ func (f *FeatureService) FeatureEnabled(uuid string, key string, projectID strin
 	return feature, f.enabled(feature, user), nil
 }
 
-// RegisterFeature register a feature
-func (f *FeatureService) RegisterFeature(feature collection.Feature) error {
-	// sort strategy attributes before insert
-	for i := 0; i < len(feature.Strategies); i++ {
-		feature.Strategies[i] = feature.Strategies[i].Sort()
-	}
-
-	return f.featureRepo.Add(&feature)
-}
-
-// UpdateFeature update a feature
-func (f *FeatureService) UpdateFeature(feature collection.Feature) error {
-	// sort strategy attributes before update
-	for i := 0; i < len(feature.Strategies); i++ {
-		feature.Strategies[i] = feature.Strategies[i].Sort()
-	}
-
-	return f.featureRepo.Update(&feature)
-}
-
-// DeleteFeature delete a feature
-func (f *FeatureService) DeleteFeature(key string, projectID string) error {
-	feature, err := f.featureRepo.FindByKey(key, projectID)
-	if err != nil {
-		return NewResourceNotFoundError(fmt.Sprintf("feature does not exists %s", feature.Key))
-	}
-
-	if err := f.featureRepo.Delete(feature.ID.Hex()); err != nil {
-		return NewStoreSystemError(err.Error())
-	}
-
-	return nil
-}
-
-// enabled verify feature?
+// enabled verify enabled feature
 func (f *FeatureService) enabled(feature collection.Feature, user collection.User) bool {
 	for _, strategy := range feature.Strategies {
 		switch strategy.Type {
@@ -140,10 +100,10 @@ func (f *FeatureService) enabled(feature collection.Feature, user collection.Use
 }
 
 // groupToggleEnabled returns enabled flag when in the specified groups
-func (f *FeatureService) groupToggleEnabled(strategy collection.ToggleStrategy, userGroups []collection.UserGroup) bool {
-	for _, userGroup := range userGroups {
-		idx := strategy.SearchGroupName(userGroup.Name)
-		if idx < len(strategy.Groups) && strategy.Groups[idx].Name == userGroup.Name {
+func (f *FeatureService) groupToggleEnabled(strategy collection.ToggleStrategy, groups []collection.UserGroup) bool {
+	for _, group := range groups {
+		idx := strategy.SearchGroupName(group.Name)
+		if idx < len(strategy.Groups) && strategy.Groups[idx].Name == group.Name {
 			return true
 		}
 	}
@@ -152,10 +112,10 @@ func (f *FeatureService) groupToggleEnabled(strategy collection.ToggleStrategy, 
 }
 
 // attributeToggleEnabled returns enabled flag when in the specified attributes
-func (f *FeatureService) attributeToggleEnabled(strategy collection.ToggleStrategy, userAttributes []collection.UserAttribute) bool {
-	for _, userAttribute := range userAttributes {
-		idx := strategy.SearchAttributeKey(userAttribute.Key)
-		if idx < len(strategy.Attributes) && strategy.Attributes[idx].Key == userAttribute.Key && strategy.Attributes[idx].Value == userAttribute.Value {
+func (f *FeatureService) attributeToggleEnabled(strategy collection.ToggleStrategy, attributes []collection.UserAttribute) bool {
+	for _, attribute := range attributes {
+		idx := strategy.SearchAttributeKey(attribute.Key)
+		if idx < len(strategy.Attributes) && strategy.Attributes[idx].Key == attribute.Key && strategy.Attributes[idx].Value == attribute.Value {
 			return true
 		}
 	}

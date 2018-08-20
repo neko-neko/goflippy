@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/neko-neko/goflippy/api/ctx"
 	"github.com/neko-neko/goflippy/api/service"
-	"github.com/neko-neko/goflippy/pkg/collection"
 	"github.com/neko-neko/goflippy/pkg/util"
 )
 
@@ -22,42 +21,21 @@ func NewFeatureHandler(f *service.FeatureService) *FeatureHandler {
 	}
 }
 
-// getFeaturesResponse is GetFeatures response
-// swagger:parameters getFeaturesResponse
-type getFeaturesResponse struct {
-	Features []collection.Feature `json:"features"`
-}
-
-// GetFeatures returns all features
-//
-// swagger:route GET /features features listFeatures
-//
-// Lists features filtered by some parameters
-//
-// Responses:
-//  200: getFeaturesResponse
-//  400: errorResponse
-func (f *FeatureHandler) GetFeatures(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
-	features, err := f.service.FetchFeatures(ctx.GetProjectID(r.Context()))
-	if err != nil {
-		return http.StatusBadRequest, nil, err
-	}
-
-	return http.StatusOK, getFeaturesResponse{
-		Features: features,
-	}, nil
-}
-
 // getFeatureRequest is GetFeatures request parameter
 // swagger:parameters listFeatures
 type getFeatureRequest struct {
+	// key is feature key
 	Key string `validate:"required"`
+
+	// uuids is UUID array
+	UUIDs []string `validate:"-"`
 }
 
 // getFeatureResponse is GetFeature response
 // swagger:parameters getFeatureResponse
 type getFeatureResponse struct {
-	Feature collection.Feature `json:"feature"`
+	Enabled bool   `json:"enabled"`
+	Key     string `json:"key" bson:"key"`
 }
 
 // GetFeature returns the feature
@@ -81,7 +59,7 @@ func (f *FeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int
 		return http.StatusBadRequest, nil, err
 	}
 
-	feature, err := f.service.FetchFeature(param.Key, ctx.GetProjectID(r.Context()))
+	feature, enabled, err := f.service.FeatureEnabled(param.Key, ctx.GetProjectID(r.Context()))
 	if rerr, ok := err.(*service.ResourceNotFoundError); ok {
 		return http.StatusNotFound, nil, rerr
 	} else if err != nil {
@@ -89,6 +67,7 @@ func (f *FeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int
 	}
 
 	return http.StatusOK, getFeatureResponse{
-		Feature: feature,
+		Enabled: enabled,
+		Key:     feature.Key,
 	}, nil
 }
