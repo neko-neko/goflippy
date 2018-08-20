@@ -33,8 +33,8 @@ func (u *UserService) RegisterUser(user *collection.User) error {
 	return nil
 }
 
-// UpdateUserInfo update a user info
-func (u *UserService) UpdateUserInfo(user *collection.User) error {
+// UpdateUserInfo update a user
+func (u *UserService) UpdateUser(user *collection.User) error {
 	original, err := u.userRepo.FindByUUID(user.UUID, user.ProjectID.Hex())
 	if err != nil {
 		return NewResourceNotFoundError(fmt.Sprintf("user does not exists %s", user.UUID))

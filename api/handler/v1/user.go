@@ -145,7 +145,7 @@ func (u *UserHandler) PatchUsers(w http.ResponseWriter, r *http.Request) (int, i
 		user.AppendAttribute(v.Key, v.Value)
 	}
 
-	err := u.service.UpdateUserInfo(user)
+	err := u.service.UpdateUser(user)
 	if rerr, ok := err.(*service.ResourceNotFoundError); ok {
 		return http.StatusNotFound, nil, rerr
 	} else if err != nil {
