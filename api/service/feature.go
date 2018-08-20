@@ -24,7 +24,7 @@ func NewFeature(userRepo repository.UserRepository, featureRepo repository.Featu
 }
 
 // FeatureEnabledByParams verify enabled feature
-func (f *FeatureService) FeatureEnabled(key string, projectID string) (collection.Feature, bool, error) {
+func (f *FeatureService) FetchFeature(key string, projectID string) (collection.Feature, error) {
 	feature, err := f.featureRepo.FindByKey(key, projectID)
 	if err != nil {
 		err = NewResourceNotFoundError(err.Error())
@@ -34,7 +34,7 @@ func (f *FeatureService) FeatureEnabled(key string, projectID string) (collectio
 	feature.LastActivatedAt = now
 	f.featureRepo.Update(&feature)
 
-	return feature, false, nil
+	return feature, nil
 }
 
 // FeatureEnabledByUser verify enabled feature from a user
@@ -61,35 +61,30 @@ func (f *FeatureService) FeatureEnabledByUser(key string, projectID string, uuid
 
 // enabled verify enabled feature
 func (f *FeatureService) enabled(feature collection.Feature, user collection.User) bool {
-	for _, strategy := range feature.Strategies {
-		switch strategy.Type {
-		case collection.ToggleStrategyTypeSimple:
-			if strategy.Enable {
+	for _, filter := range feature.Filters {
+		switch filter.Type {
+		case collection.ToggleFilterTypeGroup:
+			if f.groupToggleEnabled(filter, user.Groups) {
 				return true
 			}
 			break
-		case collection.ToggleStrategyTypeGroup:
-			if f.groupToggleEnabled(strategy, user.Groups) {
+		case collection.ToggleFilterTypeAttribute:
+			if f.attributeToggleEnabled(filter, user.Attributes) {
 				return true
 			}
 			break
-		case collection.ToggleStrategyTypeAttribute:
-			if f.attributeToggleEnabled(strategy, user.Attributes) {
+		case collection.ToggleFilterTypeUUID:
+			if f.uuidEnabled(filter, user.UUID) {
 				return true
 			}
 			break
-		case collection.ToggleStrategyTypeUUID:
-			if f.uuidEnabled(strategy, user.UUID) {
+		case collection.ToggleFilterTypeReleaseDateTime:
+			if f.releaseDateTimeEnabled(filter.ReleaseDateTime.DateTime) {
 				return true
 			}
 			break
-		case collection.ToggleStrategyTypeReleaseDateTime:
-			if f.releaseDateTimeEnabled(strategy.ReleaseDateTime.DateTime) {
-				return true
-			}
-			break
-		case collection.ToggleStrategyTypePercentage:
-			if f.percentageEnabled(user.UUID, strategy.Percentage.Percent) {
+		case collection.ToggleFilterTypePercentage:
+			if f.percentageEnabled(user.UUID, filter.Percentage.Percent) {
 				return true
 			}
 			break
@@ -100,10 +95,10 @@ func (f *FeatureService) enabled(feature collection.Feature, user collection.Use
 }
 
 // groupToggleEnabled returns enabled flag when in the specified groups
-func (f *FeatureService) groupToggleEnabled(strategy collection.ToggleStrategy, groups []collection.UserGroup) bool {
+func (f *FeatureService) groupToggleEnabled(filter collection.ToggleFilter, groups []collection.UserGroup) bool {
 	for _, group := range groups {
-		idx := strategy.SearchGroupName(group.Name)
-		if idx < len(strategy.Groups) && strategy.Groups[idx].Name == group.Name {
+		idx := filter.SearchGroupName(group.Name)
+		if idx < len(filter.Groups) && filter.Groups[idx].Name == group.Name {
 			return true
 		}
 	}
@@ -112,10 +107,10 @@ func (f *FeatureService) groupToggleEnabled(strategy collection.ToggleStrategy, 
 }
 
 // attributeToggleEnabled returns enabled flag when in the specified attributes
-func (f *FeatureService) attributeToggleEnabled(strategy collection.ToggleStrategy, attributes []collection.UserAttribute) bool {
+func (f *FeatureService) attributeToggleEnabled(filter collection.ToggleFilter, attributes []collection.UserAttribute) bool {
 	for _, attribute := range attributes {
-		idx := strategy.SearchAttributeKey(attribute.Key)
-		if idx < len(strategy.Attributes) && strategy.Attributes[idx].Key == attribute.Key && strategy.Attributes[idx].Value == attribute.Value {
+		idx := filter.SearchAttributeKey(attribute.Key)
+		if idx < len(filter.Attributes) && filter.Attributes[idx].Key == attribute.Key && filter.Attributes[idx].Value == attribute.Value {
 			return true
 		}
 	}
@@ -124,9 +119,9 @@ func (f *FeatureService) attributeToggleEnabled(strategy collection.ToggleStrate
 }
 
 // uuidEnabled returns enabled flag when in the specified uuid
-func (f *FeatureService) uuidEnabled(strategy collection.ToggleStrategy, UUID string) bool {
-	idx := strategy.SearchUUID(UUID)
-	if idx < len(strategy.UUIDs) && strategy.UUIDs[idx].UUID == UUID {
+func (f *FeatureService) uuidEnabled(filter collection.ToggleFilter, UUID string) bool {
+	idx := filter.SearchUUID(UUID)
+	if idx < len(filter.UUIDs) && filter.UUIDs[idx].UUID == UUID {
 		return true
 	}
 

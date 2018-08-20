@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/neko-neko/goflippy/api/ctx"
 	"github.com/neko-neko/goflippy/api/service"
+	"github.com/neko-neko/goflippy/pkg/collection"
 	"github.com/neko-neko/goflippy/pkg/util"
 )
 
@@ -26,16 +27,13 @@ func NewFeatureHandler(f *service.FeatureService) *FeatureHandler {
 type getFeatureRequest struct {
 	// key is feature key
 	Key string `validate:"required"`
-
-	// uuids is UUID array
-	UUIDs []string `validate:"-"`
 }
 
 // getFeatureResponse is GetFeature response
 // swagger:parameters getFeatureResponse
 type getFeatureResponse struct {
-	Enabled bool   `json:"enabled"`
-	Key     string `json:"key" bson:"key"`
+	// Feature is a feature resource
+	Feature collection.Feature `json:"feature"`
 }
 
 // GetFeature returns the feature
@@ -59,7 +57,7 @@ func (f *FeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int
 		return http.StatusBadRequest, nil, err
 	}
 
-	feature, enabled, err := f.service.FeatureEnabled(param.Key, ctx.GetProjectID(r.Context()))
+	feature, err := f.service.FetchFeature(param.Key, ctx.GetProjectID(r.Context()))
 	if rerr, ok := err.(*service.ResourceNotFoundError); ok {
 		return http.StatusNotFound, nil, rerr
 	} else if err != nil {
@@ -67,7 +65,6 @@ func (f *FeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int
 	}
 
 	return http.StatusOK, getFeatureResponse{
-		Enabled: enabled,
-		Key:     feature.Key,
+		Feature: feature,
 	}, nil
 }

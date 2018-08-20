@@ -7,69 +7,68 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Toggle Strategy definitions
+// Toggle Filter definitions
 const (
-	ToggleStrategyTypeSimple          = "simple"
-	ToggleStrategyTypeGroup           = "group"
-	ToggleStrategyTypeAttribute       = "attribute"
-	ToggleStrategyTypeUUID            = "uuid"
-	ToggleStrategyTypeReleaseDateTime = "release_date_time"
-	ToggleStrategyTypePercentage      = "percentage"
+	ToggleFilterTypeGroup           = "group"
+	ToggleFilterTypeAttribute       = "attribute"
+	ToggleFilterTypeUUID            = "uuid"
+	ToggleFilterTypeReleaseDateTime = "release_date_time"
+	ToggleFilterTypePercentage      = "percentage"
 )
 
 // Feature is nested structure
 type Feature struct {
-	ID              bson.ObjectId    `json:"_id" bson:"_id"`
-	ProjectID       bson.ObjectId    `json:"project_id" bson:"project_id"`
-	Key             string           `json:"key" bson:"key"`
-	Name            string           `json:"name" bson:"name"`
-	LastActivatedAt time.Time        `json:"last_activated_at" bson:"last_activated_at"`
-	Strategies      []ToggleStrategy `json:"strategies" bson:"strategies"`
+	ID              bson.ObjectId  `json:"_id" bson:"_id"`
+	ProjectID       bson.ObjectId  `json:"project_id" bson:"project_id"`
+	Key             string         `json:"key" bson:"key"`
+	Name            string         `json:"name" bson:"name"`
+	Enabled         bool           `json:"enabled" bson:"enabled"`
+	LastActivatedAt time.Time      `json:"last_activated_at" bson:"last_activated_at"`
+	Filters         []ToggleFilter `json:"filters" bson:"filters"`
 }
 
-// ToggleStrategy is toggle strategy
-type ToggleStrategy struct {
+// ToggleFilter is filter of feature toggle
+type ToggleFilter struct {
 	Type            string                        `json:"type" bson:"type"`
-	Enable          bool                          `json:"enable" bson:"enable,omitempty"`
-	Groups          []ToggleStrategyGroup         `json:"groups" bson:"groups,omitempty"`
-	Attributes      []ToggleStrategyAttribute     `json:"attributes" bson:"attributes,omitempty"`
-	UUIDs           []ToggleStrategyUUID          `json:"uuids" bson:"uuids,omitempty"`
-	ReleaseDateTime ToggleStrategyReleaseDateTime `json:"release_date_time" bson:"release_date_time,omitempty"`
-	Percentage      ToggleStrategyPercentage      `json:"percentage" bson:"percentage,omitempty"`
+	Groups          []ToggleFilterGroup         `json:"groups" bson:"groups,omitempty"`
+	Attributes      []ToggleFilterAttribute     `json:"attributes" bson:"attributes,omitempty"`
+	UUIDs           []ToggleFilterUUID          `json:"uuids" bson:"uuids,omitempty"`
+	ReleaseDateTime ToggleFilterReleaseDateTime `json:"release_date_time" bson:"release_date_time,omitempty"`
+	Percentage      ToggleFilterPercentage      `json:"percentage" bson:"percentage,omitempty"`
 }
 
 // SearchGroupName returns index of x into ToggleStrategyGroup
 // SearchGroupName using binary search algorithm, so must sort t.Groups
-func (t ToggleStrategy) SearchGroupName(x string) int {
+func (t ToggleFilter) SearchGroupName(x string) int {
 	return sort.Search(len(t.Groups), func(i int) bool { return t.Groups[i].Name >= x })
 }
 
 // SearchAttributeKey returns index of x into ToggleStrategyAttribute
 // SearchAttributeKey using binary search algorithm, so must sort t.Attributes
-func (t ToggleStrategy) SearchAttributeKey(x string) int {
+func (t ToggleFilter) SearchAttributeKey(x string) int {
 	return sort.Search(len(t.Attributes), func(i int) bool { return t.Attributes[i].Key >= x })
 }
 
 // SearchUUID returns index of x into ToggleStrategyUUID
 // SearchUUID using binary search algorithm, so must sort t.UUIDs
-func (t ToggleStrategy) SearchUUID(x string) int {
+func (t ToggleFilter) SearchUUID(x string) int {
 	return sort.Search(len(t.UUIDs), func(i int) bool { return t.UUIDs[i].UUID >= x })
 }
 
 // Sort elements
-func (t ToggleStrategy) Sort() ToggleStrategy {
+func (t ToggleFilter) Sort() ToggleFilter {
 	switch t.Type {
-	case ToggleStrategyTypeGroup:
+	case ToggleFilterTypeGroup:
 		sort.Slice(&t.Groups, func(i, j int) bool {
 			return t.Groups[i].Name > t.Groups[j].Name
 		})
 		break
-	case ToggleStrategyTypeAttribute:
+	case ToggleFilterTypeAttribute:
 		sort.Slice(&t.Attributes, func(i, j int) bool {
 			return t.Attributes[i].Key > t.Attributes[j].Key
 		})
 		break
-	case ToggleStrategyTypeUUID:
+	case ToggleFilterTypeUUID:
 		sort.Slice(&t.UUIDs, func(i, j int) bool {
 			return t.UUIDs[i].UUID > t.UUIDs[j].UUID
 		})
@@ -79,28 +78,28 @@ func (t ToggleStrategy) Sort() ToggleStrategy {
 	return t
 }
 
-// ToggleStrategyGroup is feature publish target group
-type ToggleStrategyGroup struct {
+// ToggleFilterGroup is feature publish target group
+type ToggleFilterGroup struct {
 	Name string `json:"name" bson:"name"`
 }
 
-// ToggleStrategyAttribute is feature publish target attribute
-type ToggleStrategyAttribute struct {
+// ToggleFilterAttribute is feature publish target attribute
+type ToggleFilterAttribute struct {
 	Key   string `json:"key" bson:"key"`
 	Value string `json:"value" bson:"value"`
 }
 
-// ToggleStrategyUUID is feature publish specification UUID
-type ToggleStrategyUUID struct {
+// ToggleFilterUUID is feature publish specification UUID
+type ToggleFilterUUID struct {
 	UUID string `json:"uuid" bson:"uuid"`
 }
 
-// ToggleStrategyReleaseDateTime is feature publish release datetime
-type ToggleStrategyReleaseDateTime struct {
+// ToggleFilterReleaseDateTime is feature publish release datetime
+type ToggleFilterReleaseDateTime struct {
 	DateTime time.Time `json:"date_time" bson:"date_time,omitempty"`
 }
 
-// ToggleStrategyPercentage is feature publish percentage
-type ToggleStrategyPercentage struct {
+// ToggleFilterPercentage is feature publish percentage
+type ToggleFilterPercentage struct {
 	Percent uint32 `json:"percent" bson:"percent,omitempty"`
 }

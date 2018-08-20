@@ -24,7 +24,7 @@ type Feature struct {
 	Key             string           `json:"key" bson:"key"`
 	Name            string           `json:"name" bson:"name"`
 	LastActivatedAt time.Time        `json:"last_activated_at" bson:"last_activated_at"`
-	Strategies      []ToggleStrategy `json:"strategies" bson:"strategies"`
+	Filters      []ToggleStrategy `json:"strategies" bson:"strategies"`
 }
 
 // ToggleStrategy is toggle strategy
