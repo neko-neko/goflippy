@@ -56,11 +56,15 @@ func (f *FeatureService) FeatureEnabledByUser(key string, projectID string, uuid
 	feature.LastActivatedAt = now
 	f.featureRepo.Update(&feature)
 
-	return feature, f.enabled(feature, user), nil
+	return feature, feature.Enabled && f.enabled(feature, user), nil
 }
 
 // enabled verify enabled feature
 func (f *FeatureService) enabled(feature collection.Feature, user collection.User) bool {
+	if len(feature.Filters) < 1 {
+		return true
+	}
+
 	for _, filter := range feature.Filters {
 		switch filter.Type {
 		case collection.ToggleFilterTypeGroup:
