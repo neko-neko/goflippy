@@ -88,22 +88,6 @@
   revision = "b84e30acd515aadc4b783ad4ff83aff3299bdfe0"
 
 [[projects]]
-  digest = "1:4eaccfca699ffeadb40faf9d96f54865dd33cd79750fd1d6ba351c88cf238ce7"
-  name = "github.com/neko-neko/goflippy"
-  packages = [
-    "pkg/collection",
-    "pkg/handler",
-    "pkg/log",
-    "pkg/middleware",
-    "pkg/repository",
-    "pkg/store",
-    "pkg/util",
-  ]
-  pruneopts = "UT"
-  revision = "7eb4e1985bd3f5bd5021f1d21950ca72488e1f9a"
-  version = "v0.0.2"
-
-[[projects]]
   digest = "1:e2f64cca6e235f32cd4c2f9be9ae0cda1f8608fc6fdb68936e8d10e4e0bb074d"
   name = "gopkg.in/go-playground/validator.v9"
   packages = ["."]
@@ -129,17 +113,14 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/go-kit/kit/log",
     "github.com/go-kit/kit/log/level",
     "github.com/gorilla/mux",
+    "github.com/gorilla/schema",
     "github.com/kelseyhightower/envconfig",
-    "github.com/neko-neko/goflippy/pkg/collection",
-    "github.com/neko-neko/goflippy/pkg/handler",
-    "github.com/neko-neko/goflippy/pkg/log",
-    "github.com/neko-neko/goflippy/pkg/middleware",
-    "github.com/neko-neko/goflippy/pkg/repository",
-    "github.com/neko-neko/goflippy/pkg/store",
-    "github.com/neko-neko/goflippy/pkg/util",
     "gopkg.in/go-playground/validator.v9",
+    "gopkg.in/mgo.v2",
+    "gopkg.in/mgo.v2/bson",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
