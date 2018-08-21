@@ -1,5 +1,8 @@
 FROM golang:1.10
-MAINTAINER neko-neko <seiichi.nishikata456@gmail.com>
+EXPOSE 9000
+
+ENV CGO_ENABLED=0
+ENV GODEBUG=netdns=go
 
 RUN mkdir -p /go/src/github.com/neko-neko/goflippy/api
 COPY . /go/src/github.com/neko-neko/goflippy/api/

@@ -22,6 +22,9 @@ import (
 	"github.com/neko-neko/goflippy/pkg/util"
 )
 
+// expose port
+const port = 9000
+
 // run application
 func run() int {
 	// load env
@@ -75,7 +78,7 @@ func run() int {
 
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         fmt.Sprintf("0.0.0.0:%d", Spec.Port),
+		Addr:         fmt.Sprintf("0.0.0.0:%d", port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 		IdleTimeout:  60 * time.Second,
