@@ -38,12 +38,6 @@ type postUsersRequest struct {
 	} `json:"attributes" validate:"omitempty,unique"`
 }
 
-// postUsersResponse is PostUsers response
-// swagger:parameters postUsersResponse
-type postUsersResponse struct {
-	User collection.User `json:"user"`
-}
-
 // PostUsers register a user
 //
 // swagger:route POST /users users registerUser
@@ -82,9 +76,7 @@ func (u *UserHandler) PostUsers(w http.ResponseWriter, r *http.Request) (int, in
 		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusOK, postUsersResponse{
-		User: *user,
-	}, nil
+	return http.StatusOK, *user, nil
 }
 
 // patchUsersRequest is patchUsers request parameter
@@ -101,12 +93,6 @@ type patchUsersRequest struct {
 		Key   string `json:"key"`
 		Value string `json:"value"`
 	} `json:"attributes" validate:"omitempty,unique"`
-}
-
-// patchUsersResponse is PatchUsers response
-// swagger:parameters patchUsersResponse
-type patchUsersResponse struct {
-	User collection.User `json:"user"`
 }
 
 // PatchUsers update a user
@@ -152,9 +138,7 @@ func (u *UserHandler) PatchUsers(w http.ResponseWriter, r *http.Request) (int, i
 		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusOK, patchUsersResponse{
-		User: *user,
-	}, nil
+	return http.StatusOK, *user, nil
 }
 
 // deleteUsersRequestParameter is deleteUsers request parameter

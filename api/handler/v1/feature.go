@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/neko-neko/goflippy/api/ctx"
 	"github.com/neko-neko/goflippy/api/service"
-	"github.com/neko-neko/goflippy/pkg/collection"
 	"github.com/neko-neko/goflippy/pkg/util"
 )
 
@@ -27,13 +26,6 @@ func NewFeatureHandler(f *service.FeatureService) *FeatureHandler {
 type getFeatureRequest struct {
 	// key is feature key
 	Key string `validate:"required"`
-}
-
-// getFeatureResponse is GetFeature response
-// swagger:parameters getFeatureResponse
-type getFeatureResponse struct {
-	// Feature is a feature resource
-	Feature collection.Feature `json:"feature"`
 }
 
 // GetFeature returns the feature
@@ -64,7 +56,5 @@ func (f *FeatureHandler) GetFeature(w http.ResponseWriter, r *http.Request) (int
 		return http.StatusBadRequest, nil, err
 	}
 
-	return http.StatusOK, getFeatureResponse{
-		Feature: feature,
-	}, nil
+	return http.StatusOK, feature, nil
 }
