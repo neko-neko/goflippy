@@ -12,7 +12,6 @@ services:
       - mongo
     environment:
       DEBUG: "true"
-      PORT: "8080"
       STOREURL: "mongodb://mongo"
       DB: "goflippy"
     env_file: api/.env
