@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  repository: nekoneko/goflippy
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+    - 0.0.0.0/0
+  annotations: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+  path: /
+  hosts:
+    - goflippy.api.local
+  tls:
+    # - goflippy.api.local
+
+env:
+  DB: goflippy
+  STORE_URL: mongodb://goflippy.mongodb.local
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
