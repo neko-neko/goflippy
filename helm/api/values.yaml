@@ -26,8 +26,9 @@ ingress:
     # - goflippy.api.local
 
 env:
-  DB: goflippy
-  STORE_URL: mongodb://goflippy.mongodb.local
+  STORE_TIMEOUT_SECONDS: 30
+  STORE_ADDRS: mongo
+  STORE_DB: goflippy
 
 resources: {}
 nodeSelector: {}
