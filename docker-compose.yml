@@ -12,8 +12,8 @@ services:
       - mongo
     environment:
       DEBUG: "true"
-      STOREURL: "mongodb://mongo"
-      DB: "goflippy"
+      STORE_ADDRS: "mongo"
+      STORE_DB: "goflippy"
     env_file: api/.env
   mongo:
     image: mongo:3.6

@@ -1,6 +1,8 @@
 package store
 
 import (
+	"time"
+
 	"gopkg.in/mgo.v2"
 )
 
@@ -9,8 +11,11 @@ var store *DB
 
 // Configuration is MongoDB configuration
 type Configuration struct {
-	URL string
-	DB  string
+	Addrs    []string
+	DB       string
+	User     string
+	Password string
+	Source   string
 }
 
 // DB datastore
@@ -31,13 +36,21 @@ func Init(conf Configuration) *DB {
 
 // Connect MongoDB
 func (d *DB) Connect() error {
-	session, err := mgo.Dial(d.conf.URL)
+	dial := &mgo.DialInfo{
+		Addrs:    d.conf.Addrs,
+		Timeout:  20 * time.Second,
+		Database: d.conf.DB,
+		Username: d.conf.User,
+		Password: d.conf.Password,
+		Source:   d.conf.Source,
+	}
+	session, err := mgo.DialWithInfo(dial)
 	if err != nil {
 		return err
 	}
 
 	d.Session = session
-	d.MongoDB = session.DB(d.conf.DB)
+	d.MongoDB = session.DB("")
 
 	return nil
 }

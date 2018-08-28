@@ -39,8 +39,11 @@ func run() int {
 	// connect DB
 	level.Info(log.Logger).Log("message", "connecting store...")
 	store := store.Init(store.Configuration{
-		URL: Spec.StoreURL,
-		DB:  Spec.DB,
+		Addrs:    Spec.StoreAddrs,
+		DB:       Spec.StoreDB,
+		User:     Spec.StoreUser,
+		Password: Spec.StorePassword,
+		Source:   Spec.StoreSource,
 	})
 	err = util.Retry(5, store.Connect)
 	if err != nil {
