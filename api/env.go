@@ -7,11 +7,12 @@ type Specification struct {
 	Debug bool `default:"false" envconfig:"DEBUG"`
 
 	// For Mongo settings
-	StoreAddrs    []string `default:"mongo" envconfig:"STORE_ADDRS"`
-	StoreDB       string   `default:"goflippy" envconfig:"STORE_DB"`
-	StoreUser     string   `default:"" envconfig:"STORE_USER"`
-	StorePassword string   `default:"" envconfig:"STORE_PASSWORD"`
-	StoreSource   string   `default:"" envconfig:"STORE_SOURCE"`
+	StoreTimeoutSeconds int      `default:"30" envconfig:"STORE_TIMEOUT_SECONDS"`
+	StoreAddrs          []string `default:"mongo" envconfig:"STORE_ADDRS"`
+	StoreDB             string   `default:"goflippy" envconfig:"STORE_DB"`
+	StoreUser           string   `default:"" envconfig:"STORE_USER"`
+	StorePassword       string   `default:"" envconfig:"STORE_PASSWORD"`
+	StoreSource         string   `default:"" envconfig:"STORE_SOURCE"`
 }
 
 // Spec is global env instance

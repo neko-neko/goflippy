@@ -11,11 +11,12 @@ var store *DB
 
 // Configuration is MongoDB configuration
 type Configuration struct {
-	Addrs    []string
-	DB       string
-	User     string
-	Password string
-	Source   string
+	Addrs          []string
+	TimeoutSeconds int
+	DB             string
+	User           string
+	Password       string
+	Source         string
 }
 
 // DB datastore
@@ -38,7 +39,7 @@ func Init(conf Configuration) *DB {
 func (d *DB) Connect() error {
 	dial := &mgo.DialInfo{
 		Addrs:    d.conf.Addrs,
-		Timeout:  20 * time.Second,
+		Timeout:  time.Duration(d.conf.TimeoutSeconds) * time.Second,
 		Database: d.conf.DB,
 		Username: d.conf.User,
 		Password: d.conf.Password,
