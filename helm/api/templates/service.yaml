@@ -10,10 +10,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 9000
-      targetPort: http
+    - name: http
       protocol: TCP
-      name: http
+      port: 80
+      targetPort: 9000
   selector:
     app: {{ include "api.name" . }}
     release: {{ .Release.Name }}
