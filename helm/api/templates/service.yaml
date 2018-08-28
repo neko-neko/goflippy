@@ -17,6 +17,9 @@ spec:
   selector:
     app: {{ include "api.name" . }}
     release: {{ .Release.Name }}
-  {{ if eq .Values.service.type "LoadBalancer" }}
+  {{ if eq .Values.service.type "LoadBalancer" -}}
   loadBalancerSourceRanges: {{ .Values.service.loadBalancerSourceRanges }}
-  {{ end }}
+  {{ if .Values.service.loadBalancerIPEnabled -}}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end -}}
+  {{- end -}}
