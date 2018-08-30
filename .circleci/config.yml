@@ -29,3 +29,25 @@ jobs:
       - run:
           name: Verify api server is working
           command: curl --retry 10 --retry-delay 1 http://localhost:9000
+      - run:
+          name: Build Admin server
+          command: cd admin && make setup && make build
+      - run:
+          name: Run Admin server
+          command: admin/release/linux/amd64/goflippy-admin
+          background: true
+          environment:
+            DEBUG: "true"
+            STORE_ADDRS: "localhost:27017"
+            STORE_DB: "goflippy"
+      - run:
+          name: Install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+      - run:
+          name: Wait for Admin server
+          command: dockerize -wait tcp://localhost:9001 -timeout 1m
+      - run:
+          name: Verify admin server is working
+          command: curl --retry 10 --retry-delay 1 http://localhost:9001
