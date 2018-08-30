@@ -15,6 +15,21 @@ services:
       STORE_ADDRS: "mongo"
       STORE_DB: "goflippy"
     env_file: api/.env
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    volumes:
+      - .:/go/src/app
+    ports:
+      - 9001:9001
+    links:
+      - mongo
+    environment:
+      DEBUG: "true"
+      STORE_ADDRS: "mongo"
+      STORE_DB: "goflippy"
+    env_file: admin/.env
   mongo:
     image: mongo:3.6
     volumes:

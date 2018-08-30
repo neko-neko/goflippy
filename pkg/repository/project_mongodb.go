@@ -18,6 +18,15 @@ func NewProjectRepositoryMongoDB(db *store.DB) *ProjectRepositoryMongoDB {
 	}
 }
 
+// FindAll returns all projects
+func (p *ProjectRepositoryMongoDB) FindAll() ([]collection.Project, error) {
+	var projects []collection.Project
+
+	c := p.db.MongoDB.C("projects")
+	err := c.Find(bson.M{}).All(&projects)
+	return projects, err
+}
+
 // FindProjectIDByAPIKey returns ProjectID from APIKey
 func (p *ProjectRepositoryMongoDB) FindProjectIDByAPIKey(key string) (string, error) {
 	var project collection.Project
@@ -36,4 +45,29 @@ func (p *ProjectRepositoryMongoDB) FindProjectByID(id string) (collection.Projec
 	err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&project)
 
 	return project, err
+}
+
+// FindByID returns Project from ID
+func (p *ProjectRepositoryMongoDB) FindByID(id string) (collection.Project, error) {
+	var project collection.Project
+
+	c := p.db.MongoDB.C("projects")
+	err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&project)
+
+	return project, err
+}
+
+// Add a project
+func (p *ProjectRepositoryMongoDB) Add(project *collection.Project) error {
+	return p.db.MongoDB.C("projects").Insert(project)
+}
+
+// Update a project
+func (p *ProjectRepositoryMongoDB) Update(project *collection.Project) error {
+	return p.db.MongoDB.C("projects").UpdateId(project.ID, project)
+}
+
+// Delete a project
+func (p *ProjectRepositoryMongoDB) Delete(id string) error {
+	return p.db.MongoDB.C("projects").RemoveId(bson.ObjectIdHex(id))
 }

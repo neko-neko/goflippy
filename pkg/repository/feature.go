@@ -11,7 +11,7 @@ type FeatureRepository interface {
 	FindByKey(key string, projectID string) (collection.Feature, error)
 
 	// Add a feature
-	Add(user *collection.Feature) error
+	Add(feature *collection.Feature) error
 
 	// Update a feature
 	Update(feature *collection.Feature) error

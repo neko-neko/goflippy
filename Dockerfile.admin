@@ -1,0 +1,13 @@
+FROM golang:1.11
+EXPOSE 9001
+
+ENV CGO_ENABLED=0
+ENV GODEBUG=netdns=go
+
+RUN mkdir -p /go/src/github.com/neko-neko/goflippy
+COPY . /go/src/github.com/neko-neko/goflippy
+WORKDIR /go/src/github.com/neko-neko/goflippy/admin
+RUN make build && \
+  mv release/linux/amd64/goflippy-admin /bin/
+
+CMD ["/bin/goflippy-admin"]

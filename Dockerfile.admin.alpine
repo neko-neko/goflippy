@@ -6,16 +6,16 @@ ENV GOARCH=amd64
 
 RUN mkdir -p /go/src/github.com/neko-neko/goflippy
 COPY . /go/src/github.com/neko-neko/goflippy
-WORKDIR /go/src/github.com/neko-neko/goflippy/api/
+WORKDIR /go/src/github.com/neko-neko/goflippy/admin/
 RUN make build
 
 FROM alpine:3.8
-EXPOSE 9000
+EXPOSE 9001
 
 ENV GODEBUG=netdns=go
 
 RUN mkdir /app && \
     apk add -U --no-cache ca-certificates tzdata && \
     apk del tzdata
-COPY --from=builder /go/src/github.com/neko-neko/goflippy/api/release/linux/amd64/goflippy-api /app
-CMD ["/app/goflippy-api"]
+COPY --from=builder /go/src/github.com/neko-neko/goflippy/admin/release/linux/amd64/goflippy-admin /app
+CMD ["/app/goflippy-admin"]

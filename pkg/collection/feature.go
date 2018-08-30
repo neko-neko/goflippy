@@ -29,12 +29,20 @@ type Feature struct {
 
 // ToggleFilter is filter of feature toggle
 type ToggleFilter struct {
-	Type            string                        `json:"type" bson:"type"`
+	Type            string                      `json:"type" bson:"type"`
 	Groups          []ToggleFilterGroup         `json:"groups" bson:"groups,omitempty"`
 	Attributes      []ToggleFilterAttribute     `json:"attributes" bson:"attributes,omitempty"`
 	UUIDs           []ToggleFilterUUID          `json:"uuids" bson:"uuids,omitempty"`
 	ReleaseDateTime ToggleFilterReleaseDateTime `json:"release_date_time" bson:"release_date_time,omitempty"`
 	Percentage      ToggleFilterPercentage      `json:"percentage" bson:"percentage,omitempty"`
+}
+
+// NewFeature returns feature object
+func NewFeature() *Feature {
+	return &Feature{
+		ID:      bson.NewObjectId(),
+		Filters: make([]ToggleFilter, 0),
+	}
 }
 
 // SearchGroupName returns index of x into ToggleStrategyGroup

@@ -96,6 +96,14 @@
   revision = "b84e30acd515aadc4b783ad4ff83aff3299bdfe0"
 
 [[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   digest = "1:e2f64cca6e235f32cd4c2f9be9ae0cda1f8608fc6fdb68936e8d10e4e0bb074d"
   name = "gopkg.in/go-playground/validator.v9"
   packages = ["."]
@@ -127,6 +135,7 @@
     "github.com/gorilla/mux",
     "github.com/gorilla/schema",
     "github.com/kelseyhightower/envconfig",
+    "github.com/satori/go.uuid",
     "gopkg.in/go-playground/validator.v9",
     "gopkg.in/mgo.v2",
     "gopkg.in/mgo.v2/bson",
