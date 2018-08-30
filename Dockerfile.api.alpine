@@ -15,7 +15,6 @@ EXPOSE 9000
 ENV GODEBUG=netdns=go
 
 RUN mkdir /app && \
-    apk add -U --no-cache ca-certificates tzdata && \
-    apk del tzdata
+    apk add -U --no-cache ca-certificates tzdata
 COPY --from=builder /go/src/github.com/neko-neko/goflippy/api/release/linux/amd64/goflippy-api /app
 CMD ["/app/goflippy-api"]
