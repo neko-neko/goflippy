@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/go-kit/kit/log/level"
 	"github.com/neko-neko/goflippy/pkg/log"
 )
 
@@ -37,5 +36,5 @@ func RecoverErrorHandler(err error, w http.ResponseWriter) {
 	json.NewEncoder(w).Encode(&recoverErrorResponse{
 		Message: "internal server error",
 	})
-	level.Error(log.Logger).Log("message", "server panic", "err", err)
+	log.ErrorWithErr(err, "message", "server panic")
 }

@@ -8,7 +8,6 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/go-kit/kit/log/level"
 	"github.com/gorilla/mux"
 	"github.com/neko-neko/goflippy/api/ctx"
 	"github.com/neko-neko/goflippy/api/handler"
@@ -30,14 +29,14 @@ func run() int {
 	// load env
 	err := EnvInit()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to load environment variables %v", err)
+		log.ErrorWithErr(err, "message", "failed to load environment variables")
 		return 1
 	}
-	level.Debug(log.Logger).Log("message", fmt.Sprintf("loaded environment %#v", Spec))
+	log.Debug("message", fmt.Sprintf("loaded environment %#v", Spec))
 
-	level.Info(log.Logger).Log("message", "initializing goflippy API server...")
+	log.Info("message", "initializing goflippy API server...")
 	// connect DB
-	level.Info(log.Logger).Log("message", "connecting store...")
+	log.Info("message", "connecting store...")
 	store := store.Init(store.Configuration{
 		TimeoutSeconds: Spec.StoreTimeoutSeconds,
 		Addrs:          Spec.StoreAddrs,
@@ -48,11 +47,11 @@ func run() int {
 	})
 	err = util.Retry(5, store.Connect)
 	if err != nil {
-		level.Error(log.Logger).Log("message", "failed to connect data store", "err", err)
+		log.ErrorWithErr(err, "message", "failed to connect data store")
 		return 1
 	}
 	defer store.Close()
-	level.Info(log.Logger).Log("message", "connected store!")
+	log.Info("message", "connected store!")
 
 	// initialize repository
 	userRepo := repository.NewUserRepositoryMongoDB(store)
@@ -89,10 +88,10 @@ func run() int {
 	}
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
-			level.Error(log.Logger).Log("message", "server got an error", "err", err)
+			log.ErrorWithErr(err, "message", "server got an error")
 		}
 	}()
-	level.Info(log.Logger).Log("message", fmt.Sprintf("goflippy API server started listen %s", srv.Addr))
+	log.Info("message", fmt.Sprintf("goflippy API server started listen %s", srv.Addr))
 
 	// signal handler
 	c := make(chan os.Signal, 1)
@@ -102,7 +101,7 @@ func run() int {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	srv.Shutdown(ctx)
-	level.Info(log.Logger).Log("message", "shutting down")
+	log.Info("message", "shutting down")
 
 	return 0
 }

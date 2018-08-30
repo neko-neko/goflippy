@@ -3,7 +3,6 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/go-kit/kit/log/level"
 	"github.com/neko-neko/goflippy/pkg/handler"
 	"github.com/neko-neko/goflippy/pkg/log"
 )
@@ -37,14 +36,14 @@ func NewKeyAuthMiddleware(f findProjectFunc, s authSuccessHandlerFunc, e authErr
 func (k *KeyAuthMiddleware) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		apiKey := r.Header.Get(handler.HTTPHeaderXApiKey)
-		level.Debug(log.Logger).Log("message", "request API Key", "key", apiKey)
+		log.Debug("message", "request API Key", "key", apiKey)
 
 		projectID, err := k.findFunc(apiKey)
 		if err != nil {
 			k.errorHandler(http.StatusForbidden, apiKey, w)
 			return
 		}
-		level.Debug(log.Logger).Log("message", "project id", "id", projectID)
+		log.Debug("id", projectID)
 
 		next.ServeHTTP(w, k.successHandler(r, projectID))
 	})

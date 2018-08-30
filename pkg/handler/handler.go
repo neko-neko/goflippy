@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-kit/kit/log/level"
 	"github.com/neko-neko/goflippy/pkg/log"
 )
 
@@ -47,7 +46,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	code, res, err := h.handler(w, r)
 	end := time.Now()
 
-	level.Info(log.Logger).Log(
+	log.Info(
 		"remote-addr", r.RemoteAddr,
 		"host", r.Host,
 		"method", r.Method,
