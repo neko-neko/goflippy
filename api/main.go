@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/neko-neko/goflippy/api/ctx"
 	"github.com/neko-neko/goflippy/api/handler"
@@ -80,7 +81,12 @@ func run() int {
 	r.Use(middleware.NewKeyAuthMiddleware(projectRepo.FindProjectIDByAPIKey, ctx.CreateRequestWithContext, handler.AuthErrorHandler).Middleware)
 
 	srv := &http.Server{
-		Handler:      r,
+		Handler: handlers.CORS(
+			handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"}),
+			handlers.ExposedHeaders([]string{baseHandler.HTTPHeaderXApiKey}),
+			handlers.AllowedHeaders([]string{"accept", "accept-language", "content-type", baseHandler.HTTPHeaderXApiKey}),
+			handlers.AllowedOrigins(Spec.AllowOrigins),
+		)(r),
 		Addr:         fmt.Sprintf("0.0.0.0:%d", port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

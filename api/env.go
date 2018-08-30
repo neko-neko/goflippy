@@ -4,7 +4,8 @@ import "github.com/kelseyhightower/envconfig"
 
 // Specification variables on which goflippy depends
 type Specification struct {
-	Debug bool `default:"false" envconfig:"DEBUG"`
+	Debug        bool     `default:"false" envconfig:"DEBUG"`
+	AllowOrigins []string `default:"*" envconfig:"ALLOW_ORIGINS"`
 
 	// For Mongo settings
 	StoreTimeoutSeconds int      `default:"30" envconfig:"STORE_TIMEOUT_SECONDS"`

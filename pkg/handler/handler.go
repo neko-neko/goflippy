@@ -11,8 +11,6 @@ import (
 
 // HTTP Headers
 const (
-	HTTPHeaderOrigin = "Origin"
-
 	// Custom headers
 	HTTPHeaderXApiKey = "X-API-Key"
 )
