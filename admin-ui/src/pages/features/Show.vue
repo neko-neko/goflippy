@@ -1,37 +1,35 @@
 <template>
   <div>
     <h1>{{feature.name}}</h1>
-    <p>last_activated_at: {{feature.last_activated_at}}</p>
+    <p>{{ $t('features.last_activated_at') }}: {{feature.last_activated_at}}</p>
 
-    <h2>ストラテジ</h2>
+    <h2>{{ $t('features.filters') }}</h2>
     <div>
       <div>
-        <span>simple</span>
-
-        <label>On</label>
+        <span>{{ $t('features.enabled') }}</span>
+        <label>{{ $t('on') }}</label>
         <input type="radio">
-
-        <label>Off</label>
+        <label>{{ $t('off') }}</label>
         <input type="radio">
       </div>
 
       <div>
-        <label>group</label>
+        <label>{{ $t('features.groups') }}</label>
         <input type="text">
       </div>
 
       <div>
-        <label>attribute</label>
+        <label>{{ $t('features.attributes') }}</label>
         <input type="text">
       </div>
 
       <div>
-        <label>release_date_time</label>
+        <label>{{ $t('features.release_date_time') }}</label>
         <input type="date">
       </div>
 
       <div>
-        <label>percentage</label>
+        <label>{{ $t('features.percentage') }}</label>
         <input type="number">
       </div>
     </div>
@@ -39,8 +37,8 @@
     <!-- <ul v-if="feature.filters.length > 0">
       <li></li>
     </ul>
-    <p v-else>フィルタは設定されていません</p> -->
-    <v-btn color="primary">Save</v-btn>
+    <p v-else>{{ $t('features.error.no_filters') }}</p> -->
+    <v-btn color="primary">{{ $t('save') }}</v-btn>
   </div>
 </template>
 

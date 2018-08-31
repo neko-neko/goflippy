@@ -1,29 +1,32 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
-      redirect: '/projects'
-    }, {
-      path: '/projects',
-      component: () => import('./views/projects/Index.vue')
-    }, {
-      path: '/projects/:id',
-      component: () => import('./views/projects/Show.vue')
-    }, {
-      path: '/projects/:id/users/:uuid',
-      component: () => import('./views/users/Show.vue')
-    }, {
-      path: '/projects/:id/features/:key',
-      component: () => import('./views/features/Show.vue')
+      path: "/",
+      name: "home",
+      redirect: "/projects"
     },
+    {
+      path: "/projects",
+      component: () => import("./pages/projects/Index.vue")
+    },
+    {
+      path: "/projects/:id",
+      component: () => import("./pages/projects/Show.vue")
+    },
+    {
+      path: "/projects/:id/users/:uuid",
+      component: () => import("./pages/users/Show.vue")
+    },
+    {
+      path: "/projects/:id/features/:key",
+      component: () => import("./pages/features/Show.vue")
+    }
   ]
-})
+});

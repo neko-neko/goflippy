@@ -1,0 +1,36 @@
+{
+  "on": "有効",
+  "off": "無効",
+  "save": "保存",
+  "create": "追加",
+  "close": "閉じる",
+  "detail": "詳細",
+  "features": {
+    "features": "機能一覧",
+    "name": "名前",
+    "key": "キー",
+    "enabled": "有効/無効",
+    "filters": "フィルター",
+    "groups": "グループ",
+    "attributes": "属性",
+    "release_date_time": "リリース日時",
+    "percentage": "パーセンテージ",
+    "last_activated_at": "最終アクティブ日時",
+    "error": {
+      "no_filters": "フィルターは設定されていません"
+    }
+  },
+  "projects": {
+    "projects": "プロジェクト一覧",
+    "add_project": "プロジェクト追加",
+    "name": "名前",
+    "description": "説明",
+    "error": {
+      "no_features": "機能が登録されていません",
+      "no_users": "ユーザが登録されていません"
+    }
+  },
+  "users": {
+    "users": "users"
+  }
+}

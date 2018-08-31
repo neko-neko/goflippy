@@ -1,0 +1,36 @@
+{
+  "on": "ON",
+  "off": "OFF",
+  "save": "save",
+  "create": "create",
+  "close": "close",
+  "detail": "detail",
+  "features": {
+    "features": "features",
+    "name": "name",
+    "key": "key",
+    "enabled": "enabled",
+    "filters": "filters",
+    "groups": "groups",
+    "attributes": "attributes",
+    "release_date_time": "release date time",
+    "percentage": "percentage",
+    "last_activated_at": "last activated",
+    "error": {
+      "no_filters": "has not been set filters"
+    }
+  },
+  "projects": {
+    "projects": "projects",
+    "add_project": "Add Project",
+    "name": "name",
+    "description": "description",
+    "error": {
+      "no_features": "has not been register features",
+      "no_users": "has not been register users"
+    }
+  },
+  "users": {
+    "users": "users"
+  }
+}
