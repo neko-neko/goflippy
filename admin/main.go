@@ -69,14 +69,14 @@ func run() int {
 
 	// initialize router
 	r := mux.NewRouter()
-	r.Handle("/v1/projects", baseHandler.Handler(projectHandler.GetProjects, handler.ErrorHandler)).Methods("GET")
-	r.Handle("/v1/projects", baseHandler.Handler(projectHandler.PostProjects, handler.ErrorHandler)).Methods("POST")
-	r.Handle("/v1/projects/{id}", baseHandler.Handler(projectHandler.GetProject, handler.ErrorHandler)).Methods("GET")
-	r.Handle("/v1/projects/{id}", baseHandler.Handler(projectHandler.PatchProjects, handler.ErrorHandler)).Methods("PATCH")
-	r.Handle("/v1/projects/{id}/features", baseHandler.Handler(projectFeatureHandler.GetFeatures, handler.ErrorHandler)).Methods("GET")
-	r.Handle("/v1/projects/{id}/features/{key}", baseHandler.Handler(projectFeatureHandler.GetFeature, handler.ErrorHandler)).Methods("GET")
-	r.Handle("/v1/projects/{id}/features", baseHandler.Handler(projectFeatureHandler.PostFeature, handler.ErrorHandler)).Methods("POST")
-	r.Handle("/v1/projects/{id}/users", baseHandler.Handler(projectUserHandler.GetUsers, handler.ErrorHandler)).Methods("GET")
+	r.Handle("/projects", baseHandler.Handler(projectHandler.GetProjects, handler.ErrorHandler)).Methods("GET")
+	r.Handle("/projects", baseHandler.Handler(projectHandler.PostProjects, handler.ErrorHandler)).Methods("POST")
+	r.Handle("/projects/{id}", baseHandler.Handler(projectHandler.GetProject, handler.ErrorHandler)).Methods("GET")
+	r.Handle("/projects/{id}", baseHandler.Handler(projectHandler.PatchProjects, handler.ErrorHandler)).Methods("PATCH")
+	r.Handle("/projects/{id}/features", baseHandler.Handler(projectFeatureHandler.GetFeatures, handler.ErrorHandler)).Methods("GET")
+	r.Handle("/projects/{id}/features/{key}", baseHandler.Handler(projectFeatureHandler.GetFeature, handler.ErrorHandler)).Methods("GET")
+	r.Handle("/projects/{id}/features", baseHandler.Handler(projectFeatureHandler.PostFeature, handler.ErrorHandler)).Methods("POST")
+	r.Handle("/projects/{id}/users", baseHandler.Handler(projectUserHandler.GetUsers, handler.ErrorHandler)).Methods("GET")
 
 	// register middlewares
 	r.Use(middleware.NewRecoverMiddleware(handler.RecoverErrorHandler).Middleware)
