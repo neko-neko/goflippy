@@ -12,7 +12,6 @@ const apiUrl = {
 }
 
 function fetchData(url) {
-  console.log(process.env)
   return new Promise(async (resolve, reject) => {
     const res = await fetch(url)
     const data = await res.json()
