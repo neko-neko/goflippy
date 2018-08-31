@@ -1,21 +1,23 @@
 # goflippy-admin-ui
-
 ## Project setup
-```
-yarn install
+```bash
+$ docker-compose exec admin-ui yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
-yarn run serve
+
+```bash
+$ docker-compose exec admin-ui yarn run serve
 ```
 
 ### Compiles and minifies for production
-```
-yarn run build
+
+```bash
+$ docker-compose exec admin-ui yarn run build
 ```
 
 ### Lints and fixes files
-```
-yarn run lint
+
+```bash
+$ docker-compose exec admin-ui yarn run lint
 ```
