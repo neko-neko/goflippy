@@ -1,0 +1,4 @@
+node_modules
+.editorconfig
+.gitignore
+.env.development.local

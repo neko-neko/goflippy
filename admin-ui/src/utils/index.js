@@ -1,20 +1,18 @@
-import constants from "../constants"
-
-const env = "local" // TODO: from process.env
-const path = constants[env].path
+import configs from "../configs"
 
 const apiUrl = {
-  getProjectsUrl: () => `${path.ADMIN_API_URL}/projects`,
-  postProjectUrl: () => `${path.ADMIN_API_URL}/projects`,
-  getProjectUrl:  id => `${path.ADMIN_API_URL}/projects/${id}`,
-  getFeaturesUrl: id => `${path.ADMIN_API_URL}/projects/${id}/features`,
-  postFeatureUrl: id => `${path.ADMIN_API_URL}/projects/${id}/features`,
-  getFeatureUrl: (id, key) => `${path.ADMIN_API_URL}/projects/${id}/features/${key}`,
-  getUsersUrl: id => `${path.ADMIN_API_URL}/projects/${id}/users`,
-  getUserUrl: (id, uuid) => `${path.ADMIN_API_URL}/projects/${id}/users/${uuid}`,
+  getProjectsUrl: () => `${configs.API_ENDPOINT}/projects`,
+  postProjectUrl: () => `${configs.API_ENDPOINT}/projects`,
+  getProjectUrl:  id => `${configs.API_ENDPOINT}/projects/${id}`,
+  getFeaturesUrl: id => `${configs.API_ENDPOINT}/projects/${id}/features`,
+  postFeatureUrl: id => `${configs.API_ENDPOINT}/projects/${id}/features`,
+  getFeatureUrl: (id, key) => `${configs.API_ENDPOINT}/projects/${id}/features/${key}`,
+  getUsersUrl: id => `${configs.API_ENDPOINT}/projects/${id}/users`,
+  getUserUrl: (id, uuid) => `${configs.API_ENDPOINT}/projects/${id}/users/${uuid}`,
 }
 
 function fetchData(url) {
+  console.log(process.env)
   return new Promise(async (resolve, reject) => {
     const res = await fetch(url)
     const data = await res.json()

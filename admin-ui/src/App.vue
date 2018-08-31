@@ -26,7 +26,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Goflippy Admin'
+      title: 'Goflippy management console'
     }
   }
 }

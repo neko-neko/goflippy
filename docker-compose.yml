@@ -30,6 +30,16 @@ services:
       STORE_ADDRS: "mongo"
       STORE_DB: "goflippy"
     env_file: admin/.env
+  admin-ui:
+    build:
+      context: ./admin-ui/
+    volumes:
+      - ./admin-ui/:/app
+      - /app/node_modules
+    ports:
+      - 8080:8080
+    links:
+      - admin
   mongo:
     image: mongo:3.6
     volumes:

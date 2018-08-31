@@ -1,0 +1,6 @@
+.git
+.editorconfig
+.circleci
+docker-compose.yml
+admin/.env
+api/.env
