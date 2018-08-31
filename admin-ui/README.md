@@ -1,5 +1,11 @@
 # goflippy-admin-ui
+
+## TODO
+
+- Fix breaking Flux architecture
+
 ## Project setup
+
 ```bash
 $ docker-compose exec admin-ui yarn install
 ```
