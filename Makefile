@@ -1,5 +1,6 @@
 .PHONY: build build-api cross-build-api build-admin cross-build-admin clean test setup
 
+PACKAGES = $(shell go list ./... | grep -v /vendor)
 LD_FLAGS = -extldflags '-static'
 
 ## Build servers
@@ -42,11 +43,19 @@ clean:
 
 ## Run test
 test:
-	go test -race -cover -covermode=atomic ./...
+	@for f in "${PACKAGES}"; do \
+		go test -race -cover -covermode=atomic $$f; \
+	done
 
 ## Run test for CI
 test-ci:
-	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+	@for f in "${PACKAGES}"; do \
+		go test -race -coverprofile=profile.out -covermode=atomic $$f; \
+		if [ -f profile.out ]; then \
+			cat profile.out >> coverage.txt; \
+			rm profile.out; \
+		fi; \
+	done
 
 ## Run go generate
 generate:
