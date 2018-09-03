@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: nekoneko/goflippy
+  repository: nekoneko/goflippy-api
   tag: latest
   pullPolicy: IfNotPresent
 
