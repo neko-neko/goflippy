@@ -4,17 +4,16 @@ ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
 
-RUN mkdir -p /go/src/github.com/neko-neko/goflippy
-COPY . /go/src/github.com/neko-neko/goflippy
-WORKDIR /go/src/github.com/neko-neko/goflippy/api/
-RUN make build
+WORKDIR /go/src/github.com/neko-neko/goflippy
+COPY . .
+RUN make build-api
 
 FROM alpine:3.8
-EXPOSE 9000
+EXPOSE 9001
 
 ENV GODEBUG=netdns=go
 
 RUN mkdir /app && \
     apk add -U --no-cache ca-certificates tzdata
-COPY --from=builder /go/src/github.com/neko-neko/goflippy/api/release/linux/amd64/goflippy-api /app
+COPY --from=builder /go/src/github.com/neko-neko/goflippy/release/linux/amd64/goflippy-api /app
 CMD ["/app/goflippy-api"]

@@ -3,7 +3,6 @@ package collection
 import (
 	"time"
 
-	uuid "github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -20,11 +19,10 @@ type Project struct {
 // NewProject returns new project object
 func NewProject() *Project {
 	now := time.Now()
-	apiKeys := []string{uuid.NewV4().String()}
 	return &Project{
 		ID:        bson.NewObjectId(),
+		APIKeys:   make([]string, 0),
 		CreatedAt: now,
 		UpdatedAt: now,
-		APIKeys:   apiKeys,
 	}
 }

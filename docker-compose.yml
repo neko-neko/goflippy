@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.api
     volumes:
-      - .:/go/src/app
+      - .:/go/src/github.com/neko-neko/goflippy
     ports:
       - 9000:9000
     links:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile.admin
     volumes:
-      - .:/go/src/app
+      - .:/go/src/github.com/neko-neko/goflippy
     ports:
       - 9001:9001
     links:

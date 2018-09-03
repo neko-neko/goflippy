@@ -8,11 +8,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Run tests
+          command: make test-ci
+      - run:
+          name: Upload coverage to Codecov
+          command: bash <(curl -s https://codecov.io/bash)
+      - run:
           name: Build API server
-          command: cd api && make setup && make build
+          command: make setup && make build-api
       - run:
           name: Run API server
-          command: api/release/linux/amd64/goflippy-api
+          command: release/linux/amd64/goflippy-api
           background: true
           environment:
             DEBUG: "true"
@@ -31,10 +37,10 @@ jobs:
           command: curl --retry 10 --retry-delay 1 http://localhost:9000
       - run:
           name: Build Admin server
-          command: cd admin && make setup && make build
+          command: make setup && make build-admin
       - run:
           name: Run Admin server
-          command: admin/release/linux/amd64/goflippy-admin
+          command: release/linux/amd64/goflippy-admin
           background: true
           environment:
             DEBUG: "true"
