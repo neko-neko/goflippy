@@ -57,7 +57,9 @@ func (u *UserHandler) PostUsers(w http.ResponseWriter, r *http.Request) (int, in
 	}
 
 	user := collection.NewUser()
-	user.SetProjectID(ctx.GetProjectID(r.Context()))
+	if err := user.SetProjectID(ctx.GetProjectID(r.Context())); err != nil {
+		return http.StatusBadRequest, nil, err
+	}
 	user.FirstName = param.FirstName
 	user.LastName = param.LastName
 	user.UUID = param.UUID

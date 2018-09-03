@@ -1,6 +1,7 @@
 package collection
 
 import (
+	"fmt"
 	"time"
 
 	"gopkg.in/mgo.v2/bson"
@@ -47,8 +48,13 @@ func NewUser() *User {
 }
 
 // SetProjectID is set string projectID to bson.ObjectId projectID
-func (u *User) SetProjectID(projectID string) {
+func (u *User) SetProjectID(projectID string) error {
+	if !bson.IsObjectIdHex(projectID) {
+		return fmt.Errorf("%s is not valid format", projectID)
+	}
+
 	u.ProjectID = bson.ObjectIdHex(projectID)
+	return nil
 }
 
 // AppendGroup append group to user
