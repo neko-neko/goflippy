@@ -23,7 +23,7 @@ func NewFeature(userRepo repository.UserRepository, featureRepo repository.Featu
 	}
 }
 
-// FeatureEnabledByParams verify enabled feature
+// FetchFeature returns a feature
 func (f *FeatureService) FetchFeature(key string, projectID string) (collection.Feature, error) {
 	feature, err := f.featureRepo.FindByKey(key, projectID)
 	if err != nil {
