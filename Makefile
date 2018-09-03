@@ -49,8 +49,9 @@ test:
 
 ## Run test for CI
 test-ci:
-	@for f in "${PACKAGES}"; do \
-		go test -race -coverprofile=profile.out -covermode=atomic $$f; \
+	@echo "" > coverage.txt
+	@for d in "${PACKAGES}"; do \
+		go test -race -coverprofile=profile.out -covermode=atomic $$d || exit 1; \
 		if [ -f profile.out ]; then \
 			cat profile.out >> coverage.txt; \
 			rm profile.out; \
