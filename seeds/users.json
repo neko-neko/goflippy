@@ -1,0 +1,28 @@
+[
+  {
+    "_id": ObjectId("5b8cca4cbee27a0001ffa861"),
+    "project_id": ObjectId("51944e5d62bd6d4103103b59"),
+    "first_name": "Jaenles",
+    "last_name": "Jamespower",
+    "uuid": "4bfa57cd-53f8-4882-b730-9ba10bd41813",
+    "email": "seiichi.nishikata456+1@gmail.com",
+    "last_activated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "created_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "updated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "groups": [],
+    "attributes": []
+  },
+  {
+    "_id": ObjectId("5b8cca4cbee27a0001ffa862"),
+    "project_id": ObjectId("51944e5d62bd6d4103103b59"),
+    "first_name": "Bennella",
+    "last_name": "Pakewagner",
+    "uuid": "4bfa57cd-53f8-4882-b730-9ba10bd41813",
+    "email": "seiichi.nishikata456+2@gmail.com",
+    "last_activated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "created_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "updated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "groups": [],
+    "attributes": []
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "_id": ObjectId("51944e5d62bd6d4103103b59"),
+    "name": "goflipy",
+    "description": "goflippy development project",
+    "created_at": ISODate("2018-08-01T00:00:00.000Z"),
+    "updated_at": ISODate("2018-08-01T00:00:00.000Z"),
+    "api_keys": [
+      "c9d472e8-9101-4601-9c5c-06825fde9092"
+    ]
+  },
+  {
+    "_id": ObjectId("51944e5d62bd6d4103103b5a"),
+    "name": "Lunch",
+    "description": "awesome lunch project",
+    "created_at": ISODate("2018-08-02T00:00:00.000Z"),
+    "updated_at": ISODate("2018-08-02T00:00:00.000Z"),
+    "api_keys": [
+      "4ffadea2-ac24-4da2-a851-cddf72d074b5"
+    ]
+  }
+]

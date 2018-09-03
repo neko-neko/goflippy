@@ -1,0 +1,20 @@
+[
+  {
+    "_id": ObjectId("6b8cca4cbee27a0001ffa861"),
+    "project_id": ObjectId("51944e5d62bd6d4103103b59"),
+    "key": "feature-A",
+    "name": "feature A",
+    "enabled": true,
+    "last_activated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "filters": []
+  },
+  {
+    "_id": ObjectId("7b8cca4cbee27a0001ffa862"),
+    "project_id": ObjectId("51944e5d62bd6d4103103b59"),
+    "key": "feature-B",
+    "name": "feature B",
+    "enabled": false,
+    "last_activated_at": ISODate("2018-09-01T00:00:00.000Z"),
+    "filters": []
+  }
+]

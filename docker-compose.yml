@@ -54,6 +54,18 @@ services:
       - mongo
     environment:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+  mongo-seeder:
+    image: mongo:3.6
+    volumes:
+      - ./seeds:/seeds
+    links:
+      - mongo
+    command: >
+      /bin/bash -c "
+        mongoimport --host mongo --db goflippy --collection projects --type json --upsert --file /seeds/projects.json --jsonArray;
+        mongoimport --host mongo --db goflippy --collection features --type json --upsert --file /seeds/features.json --jsonArray;
+        mongoimport --host mongo --db goflippy --collection users --type json --upsert --file /seeds/users.json --jsonArray;
+      "
 volumes:
   store-data:
     driver: local
