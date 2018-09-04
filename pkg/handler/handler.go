@@ -56,6 +56,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		"elapsed-time", end.Sub(start).String(),
 	)
 	if err != nil {
+		w.Header().Set("Content-type", "application/json")
 		h.errorHandler(code, err, w)
 		return
 	}

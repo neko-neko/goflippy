@@ -30,7 +30,6 @@ func newErrorResponse(mes string) *errorResponse {
 
 // ErrorHandler is handle server error func
 func ErrorHandler(code int, err error, w http.ResponseWriter) {
-	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(code)
 
 	res := newErrorResponse(err.Error())
