@@ -24,14 +24,29 @@ func Debug(keyvals ...interface{}) {
 	level.Debug(logger).Log(keyvals...)
 }
 
+// DebugWithMsg outputs debug level log with message
+func DebugWithMsg(msg string, keyvals ...interface{}) {
+	Debug(append(keyvals, "message", msg)...)
+}
+
 // Info outputs log for info
 func Info(keyvals ...interface{}) {
 	level.Info(logger).Log(keyvals...)
 }
 
+// InfoWithMsg outputs info level log with message
+func InfoWithMsg(msg string, keyvals ...interface{}) {
+	Info(append(keyvals, "message", msg)...)
+}
+
 // Warn outputs log for warn
 func Warn(keyvals ...interface{}) {
 	level.Warn(logger).Log(keyvals...)
+}
+
+// WarnWithMsg outputs warn level log with message
+func WarnWithMsg(msg string, keyvals ...interface{}) {
+	Warn(append(keyvals, "message", msg)...)
 }
 
 // Error outputs log for error

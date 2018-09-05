@@ -36,14 +36,14 @@ func NewKeyAuthMiddleware(f findProjectFunc, s authSuccessHandlerFunc, e authErr
 func (k *KeyAuthMiddleware) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		apiKey := r.Header.Get(handler.HTTPHeaderXApiKey)
-		log.Debug("message", "request API Key", "key", apiKey)
+		log.DebugWithMsg("request API Key", "key", apiKey)
 
 		projectID, err := k.findFunc(apiKey)
 		if err != nil {
 			k.errorHandler(http.StatusForbidden, apiKey, w)
 			return
 		}
-		log.Debug("id", projectID)
+		log.DebugWithMsg("project found", "id", projectID)
 
 		next.ServeHTTP(w, k.successHandler(r, projectID))
 	})

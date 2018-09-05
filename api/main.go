@@ -33,11 +33,11 @@ func run() int {
 		log.ErrorWithErr(err, "message", "failed to load environment variables")
 		return 1
 	}
-	log.Debug("message", fmt.Sprintf("loaded environment %#v", Spec))
+	log.DebugWithMsg(fmt.Sprintf("loaded environment %#v", Spec))
 
-	log.Info("message", "initializing goflippy API server...")
+	log.InfoWithMsg("initializing goflippy API server...")
 	// connect DB
-	log.Info("message", "connecting store...")
+	log.InfoWithMsg("connecting store...")
 	store := store.Init(store.Configuration{
 		TimeoutSeconds: Spec.StoreTimeoutSeconds,
 		Addrs:          Spec.StoreAddrs,
@@ -52,7 +52,7 @@ func run() int {
 		return 1
 	}
 	defer store.Close()
-	log.Info("message", "connected store!")
+	log.InfoWithMsg("connected store!")
 
 	// initialize repository
 	userRepo := repository.NewUserRepositoryMongoDB(store)
@@ -97,7 +97,7 @@ func run() int {
 			log.ErrorWithErr(err, "message", "server got an error")
 		}
 	}()
-	log.Info("message", fmt.Sprintf("goflippy API server started listen %s", srv.Addr))
+	log.InfoWithMsg(fmt.Sprintf("goflippy API server started listen %s", srv.Addr))
 
 	// signal handler
 	c := make(chan os.Signal, 1)
@@ -107,7 +107,7 @@ func run() int {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	srv.Shutdown(ctx)
-	log.Info("message", "shutting down")
+	log.InfoWithMsg("shutting down")
 
 	return 0
 }
