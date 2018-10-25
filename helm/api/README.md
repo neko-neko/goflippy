@@ -2,5 +2,9 @@
 ## How to render k8s resources
 Run this:
 ```sh
-$ helm template . --name production
+# dry-run
+$ helm template . --name production | kubectl apply -f - --dry-run
+
+# apply
+$ helm template . --name production | kubectl apply -f -
 ```
