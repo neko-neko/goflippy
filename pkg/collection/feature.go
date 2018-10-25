@@ -57,11 +57,11 @@ type ToggleFilterPercentage struct {
 // ToggleFilter is filter of feature toggle
 type ToggleFilter struct {
 	Type            string                      `json:"type" bson:"type"`
-	Groups          []ToggleFilterGroup         `json:"groups" bson:"groups,omitempty"`
-	Attributes      []ToggleFilterAttribute     `json:"attributes" bson:"attributes,omitempty"`
-	UUIDs           []ToggleFilterUUID          `json:"uuids" bson:"uuids,omitempty"`
-	ReleaseDateTime ToggleFilterReleaseDateTime `json:"release_date_time" bson:"release_date_time,omitempty"`
-	Percentage      ToggleFilterPercentage      `json:"percentage" bson:"percentage,omitempty"`
+	Groups          []ToggleFilterGroup         `json:"groups" bson:"groups"`
+	Attributes      []ToggleFilterAttribute     `json:"attributes" bson:"attributes"`
+	UUIDs           []ToggleFilterUUID          `json:"uuids" bson:"uuids"`
+	ReleaseDateTime ToggleFilterReleaseDateTime `json:"release_date_time" bson:"release_date_time"`
+	Percentage      ToggleFilterPercentage      `json:"percentage" bson:"percentage"`
 }
 
 // NewFeature returns feature object
